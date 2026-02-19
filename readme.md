@@ -1,5 +1,33 @@
 # Minecraft Clone - Detailed Code Explanation
 
+## How to Start This Program
+
+### Prerequisites
+- Java 17 or higher
+- Maven
+
+### Running the Game
+
+**Option 1: Using Maven (recommended)**
+```bash
+mvn clean compile exec:java -Dexec.mainClass="com.voxelgame.Game"
+```
+
+**Option 2: Compile and run manually**
+```bash
+mvn clean package
+java -cp target/classes com.voxelgame.Game
+```
+
+### Controls
+- **WASD**: Move around
+- **Mouse**: Look around
+- **Left Click**: Break block
+- **Right Click**: Place block
+- **ESC**: Close game
+
+---
+
 ## 1. pom.xml - Maven Project Configuration
 
 **Purpose**: Defines project dependencies and build configuration
