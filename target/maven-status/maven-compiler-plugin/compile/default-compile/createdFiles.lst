@@ -20,4 +20,5 @@ com\voxelgame\ShaderProgram.class
 com\voxelgame\Chunk.class
 com\voxelgame\BlockType.class
 com\voxelgame\BitmapFont.class
+com\voxelgame\CloudManager.class
 com\voxelgame\GameLauncher.class

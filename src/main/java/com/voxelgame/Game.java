@@ -24,6 +24,7 @@ public class Game {
     private Inventory inventory;
     private HUD hud;
     private EntityManager entityManager;
+    private CloudManager cloudManager;
 
     private double lastFrameTime;
     private float deltaTime;
@@ -103,6 +104,7 @@ public class Game {
         world = new World(launcherRenderDistance);
         inventory = new Inventory();
         entityManager = new EntityManager();
+        cloudManager = new CloudManager();
         inputHandler = new InputHandler(window, camera, world, inventory, entityManager);
         hud = new HUD();
 
@@ -166,6 +168,7 @@ public class Game {
         }
 
         entityManager.update(deltaTime, world);
+        cloudManager.update(deltaTime);
     }
 
     private void render() {
@@ -177,12 +180,16 @@ public class Game {
         // Render entities (animals)
         entityManager.render(camera);
 
+        // Render clouds
+        cloudManager.render(camera);
+
         // Render 2D HUD overlay
         hud.render(width, height, camera, inventory, deltaTime);
     }
 
     private void cleanup() {
         entityManager.cleanup();
+        cloudManager.cleanup();
         hud.cleanup();
         world.cleanup();
         glfwFreeCallbacks(window);
