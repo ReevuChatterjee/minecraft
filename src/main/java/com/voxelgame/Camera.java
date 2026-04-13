@@ -150,12 +150,19 @@ public class Camera {
             }
         }
 
-        // Apply horizontal collision check
-        if (!flying && world != null) {
+        // Apply collision check
+        if (world != null) {
             // Try X movement
             Vector3f testX = new Vector3f(newPosition.x, position.y, position.z);
             if (!checkCollision(testX, world)) {
                 position.x = newPosition.x;
+            }
+            // Try Y movement if flying (gravity handles Y normally when not flying)
+            if (flying) {
+                Vector3f testY = new Vector3f(position.x, newPosition.y, position.z);
+                if (!checkCollision(testY, world)) {
+                    position.y = newPosition.y;
+                }
             }
             // Try Z movement
             Vector3f testZ = new Vector3f(position.x, position.y, newPosition.z);

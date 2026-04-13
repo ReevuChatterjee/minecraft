@@ -77,8 +77,8 @@ public class EntityManager {
 
         glBindVertexArray(vao);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        // Reserve for up to MAX_ENTITIES entities * 216 verts * 9 floats
-        glBufferData(GL_ARRAY_BUFFER, MAX_ENTITIES * 216 * 9 * Float.BYTES, GL_DYNAMIC_DRAW);
+        // Reserve for up to MAX_ENTITIES entities * 360 verts * 9 floats
+        glBufferData(GL_ARRAY_BUFFER, MAX_ENTITIES * 360 * 9 * Float.BYTES, GL_DYNAMIC_DRAW);
 
         // Position (3 floats)
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 9 * Float.BYTES, 0);
@@ -205,7 +205,7 @@ public class EntityManager {
         if (entities.isEmpty()) return;
 
         // Build mesh for all entities
-        float[] vertices = new float[entities.size() * 216 * 9]; // 216 verts per entity max
+        float[] vertices = new float[entities.size() * 360 * 9]; // 360 verts per entity max
         int idx = 0;
 
         for (Entity e : entities) {
@@ -246,6 +246,28 @@ public class EntityManager {
                 float ly = py + leg[1];
                 idx = addBox(vertices, idx, lx, ly, lz, legW, legH, legL,
                     e.type.bodyColor, cosY, sinY);
+            }
+
+            // Extra Details (Muzzle/Horns)
+            if (e.type == Entity.Type.COW) {
+                float muzzleW = 0.4f, muzzleH = 0.3f, muzzleL = 0.2f;
+                float mx = headX + sinY * (e.type.headL * 0.4f);
+                float mz = headZ + cosY * (e.type.headL * 0.4f);
+                float my = headY - 0.15f;
+                float[] muzzleCol = {0.85f, 0.75f, 0.65f};
+                idx = addBox(vertices, idx, mx, my, mz, muzzleW, muzzleH, muzzleL, muzzleCol, cosY, sinY);
+            } else if (e.type == Entity.Type.GOAT) {
+                float hornW = 0.1f, hornH = 0.3f, hornL = 0.1f;
+                float[] hornCol = {0.85f, 0.85f, 0.80f};
+                
+                float hx1 = headX + (0.2f * cosY) - (0.1f * sinY);
+                float hz1 = headZ + (0.2f * sinY) + (0.1f * cosY);
+                float hx2 = headX - (0.2f * cosY) - (0.1f * sinY);
+                float hz2 = headZ - (0.2f * sinY) + (0.1f * cosY);
+                float hy = headY + e.type.headH * 0.5f + hornH * 0.5f;
+                
+                idx = addBox(vertices, idx, hx1, hy, hz1, hornW, hornH, hornL, hornCol, cosY, sinY);
+                idx = addBox(vertices, idx, hx2, hy, hz2, hornW, hornH, hornL, hornCol, cosY, sinY);
             }
         }
 
