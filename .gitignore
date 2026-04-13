@@ -1,0 +1,5 @@
+target/
+.maven/
+world.dat
+hs_err_pid*.log
+*.class
